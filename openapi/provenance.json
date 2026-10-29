@@ -1,0 +1,52 @@
+{
+  "retrieved_at": "2026-10-29T13:57:59.147128+00:00",
+  "status": "Task 1 feasibility passed: live machine-token CRUD and pinned generator fidelity with lossless hoist/nullable config",
+  "upstream_url": "https://huggingface.co/.well-known/openapi.json",
+  "sdk_commit": "db254a305a29370d2e08859000d0d40c2897c8db",
+  "frontend_base_url": "https://huggingface.co/front/build/kube-cbf67c2/",
+  "files": {
+    "upstream.json": {
+      "bytes": 1210635,
+      "sha256": "11306c4757273fefa2fadb093161d426d7a08cd62b36522276d8449c6dfc19c8"
+    },
+    "hf_api.py": {
+      "bytes": 696491,
+      "sha256": "3871f6516f2bf97b77cf4179daea929b30b4c97d7e87e9158fa742f46cbf4860"
+    },
+    "frontend.js": {
+      "bytes": 281398,
+      "sha256": "53d68fb7e91564adcab3be43dd9c7efa7bafd162d36cbebdf0c226a0b3882592"
+    },
+    "trusted-publishers.js": {
+      "bytes": 11732,
+      "sha256": "b0c4d9f07089e08d0b9d97fd7ee50b49122fdf37c579dda19fa10a1aa0849914"
+    },
+    "view-utils.js": {
+      "bytes": 116721,
+      "sha256": "873b32845a0b70567a9857031e11a0d02e1de884ccff8e02172cb7720104038b"
+    }
+  },
+  "api_evidence": {
+    "../docs/api-contract/sanitized-fixtures/publisher-machine-token-probe.json": "02685cfe36b9d50ad1bd69fb3762147a5b792f8beb2a8bca058501178742c13b",
+    "../docs/api-contract/sanitized-fixtures/repository-and-pagination-probe.json": "bc859f5e802972b1ff98d314ddd0df1fd239d4ee246cad8bf2098d49181bb366"
+  },
+  "design_snapshot_sha256": "3dc5e6f9256f5574371aa8a3527c848ec88ffc72e6177ffaf9507959b1522fdd",
+  "downloaded_schema_sha256": "11306c4757273fefa2fadb093161d426d7a08cd62b36522276d8449c6dfc19c8",
+  "generator": {
+    "version": "v2.8.1",
+    "runtime": "v1.8.0",
+    "nullable": "v1.1.0",
+    "transform": "lossless inline create request schema hoist",
+    "report": "../docs/api-contract/generator-report.md"
+  },
+  "overlay": {
+    "path": "overlay.yaml",
+    "contract": "../docs/api-contract/api-contract.md",
+    "status": "additive machine-PAT-verified model info/delete and undocumented publisher list/create/delete only",
+    "scope_limits": [
+      "No individual publisher GET/update",
+      "Arrays observed at sizes 0, 1 and 2; no general pagination guarantee",
+      "Legacy Write PAT sufficient; minimum fine-grained scopes untested"
+    ]
+  }
+}

@@ -1,0 +1,50 @@
+--- a/repositories.tf
++++ b/repositories.tf
+@@ -309,3 +309,15 @@
+   topics       = ["terraform", "terraform-provider", "opentofu", "qbittorrent"]
+   homepage_url = "https://registry.terraform.io/providers/m11s-io/qbittorrent"
+ }
++
++resource "github_repository" "terraform_provider_huggingface" {
++  name         = "terraform-provider-huggingface"
++  description  = "Terraform and OpenTofu provider for Hugging Face model repositories and trusted publishers"
++  visibility   = "public"
++  has_issues   = true
++  has_wiki     = false
++  has_projects = false
++  auto_init    = true
++  topics       = ["terraform", "terraform-provider", "opentofu", "huggingface"]
++  homepage_url = "https://registry.terraform.io/providers/m11s-io/huggingface"
++}
+--- a/licenses.tf
++++ b/licenses.tf
+@@ -53,3 +53,11 @@
+   commit_message      = "Add MPL-2.0 license"
+   overwrite_on_create = true
+ }
++
++resource "github_repository_file" "huggingface_provider_license" {
++  repository          = github_repository.terraform_provider_huggingface.name
++  file                = "LICENSE"
++  content             = file("${path.module}/files/LICENSE-mpl-2.0.txt")
++  commit_message      = "Add MPL-2.0 license"
++  overwrite_on_create = true
++}
+--- a/secrets.tf
++++ b/secrets.tf
+@@ -136,3 +136,15 @@
+   secret_name = "GPG_PASSPHRASE"
+   value       = ""
+ }
++
++resource "github_actions_secret" "huggingface_provider_gpg_private_key" {
++  repository  = github_repository.terraform_provider_huggingface.name
++  secret_name = "GPG_PRIVATE_KEY"
++  value       = var.gpg_private_key
++}
++
++resource "github_actions_secret" "huggingface_provider_gpg_passphrase" {
++  repository  = github_repository.terraform_provider_huggingface.name
++  secret_name = "GPG_PASSPHRASE"
++  value       = ""
++}

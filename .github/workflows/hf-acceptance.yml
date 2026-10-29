@@ -1,0 +1,96 @@
+name: Disposable HF acceptance and OIDC
+on:
+  workflow_dispatch:
+    inputs:
+      namespace:
+        description: Dedicated authorized HF test namespace
+        required: true
+        type: string
+permissions:
+  contents: read
+jobs:
+  setup:
+    if: github.ref_type == 'branch'
+    runs-on: ubuntu-24.04
+    outputs:
+      repo_id: ${{ steps.setup.outputs.repo_id }}
+      publisher_id: ${{ steps.setup.outputs.publisher_id }}
+      foreign_id: ${{ steps.setup.outputs.foreign_id }}
+      scope_repo_id: ${{ steps.setup.outputs.scope_repo_id }}
+    steps:
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - uses: actions/setup-go@4a3601121dd01d1626a1e23e37211e3254c1c06c # v6.4.0
+        with:
+          go-version-file: go.mod
+      - run: python3 tests/acceptance/install_cli.py tofu "$RUNNER_TEMP/cli"
+      - id: setup
+        env:
+          HF_TOKEN: ${{ secrets.HF_BOOTSTRAP_TOKEN }}
+          TEST_NAMESPACE: ${{ inputs.namespace }}
+          CLAIM_REPOSITORY: ${{ github.repository }}
+          CLAIM_BRANCH: ${{ github.ref_name }}
+        run: >-
+          python3 tests/acceptance/live.py --mode setup --confirm-disposable
+          --namespace "$TEST_NAMESPACE" --github-repository "$CLAIM_REPOSITORY"
+          --branch "$CLAIM_BRANCH" --cli "$RUNNER_TEMP/cli/tofu"
+  upload:
+    needs: setup
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - run: |
+          python3 -m venv "$RUNNER_TEMP/hf"
+          "$RUNNER_TEMP/hf/bin/pip" install huggingface_hub==1.19.0
+      - env:
+          HF_OIDC_RESOURCE: ${{ needs.setup.outputs.repo_id }}
+          SCOPE_REPO: ${{ needs.setup.outputs.scope_repo_id }}
+          TEST_NAMESPACE: ${{ inputs.namespace }}
+          CLAIM_REPOSITORY: ${{ github.repository }}
+          CLAIM_BRANCH: ${{ github.ref_name }}
+        run: >-
+          "$RUNNER_TEMP/hf/bin/python" tests/acceptance/live.py --mode upload --confirm-disposable
+          --namespace "$TEST_NAMESPACE" --github-repository "$CLAIM_REPOSITORY"
+          --branch "$CLAIM_BRANCH" --repo-id "$HF_OIDC_RESOURCE" --scope-repo-id "$SCOPE_REPO"
+  cleanup:
+    if: always() && needs.setup.outputs.repo_id != ''
+    needs: [setup, upload]
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - uses: actions/setup-go@4a3601121dd01d1626a1e23e37211e3254c1c06c # v6.4.0
+        with:
+          go-version-file: go.mod
+      - run: |
+          python3 tests/acceptance/install_cli.py tofu "$RUNNER_TEMP/cli"
+          python3 -m venv "$RUNNER_TEMP/hf"
+          "$RUNNER_TEMP/hf/bin/pip" install huggingface_hub==1.19.0
+      - env:
+          HF_TOKEN: ${{ secrets.HF_BOOTSTRAP_TOKEN }}
+          TEST_NAMESPACE: ${{ inputs.namespace }}
+          CLAIM_REPOSITORY: ${{ github.repository }}
+          CLAIM_BRANCH: ${{ github.ref_name }}
+          TEST_REPO: ${{ needs.setup.outputs.repo_id }}
+          SCOPE_REPO: ${{ needs.setup.outputs.scope_repo_id }}
+          PUBLISHER_ID: ${{ needs.setup.outputs.publisher_id }}
+          FOREIGN_ID: ${{ needs.setup.outputs.foreign_id }}
+        run: >-
+          "$RUNNER_TEMP/hf/bin/python" tests/acceptance/live.py --mode cleanup --confirm-disposable --require-marker
+          --namespace "$TEST_NAMESPACE" --github-repository "$CLAIM_REPOSITORY" --branch "$CLAIM_BRANCH"
+          --repo-id "$TEST_REPO" --scope-repo-id "$SCOPE_REPO" --publisher-id "$PUBLISHER_ID"
+          --foreign-id "$FOREIGN_ID" --cli "$RUNNER_TEMP/cli/tofu"
+      - name: Final cleanup fallback
+        if: always()
+        env:
+          HF_TOKEN: ${{ secrets.HF_BOOTSTRAP_TOKEN }}
+          TEST_NAMESPACE: ${{ inputs.namespace }}
+          CLAIM_REPOSITORY: ${{ github.repository }}
+          CLAIM_BRANCH: ${{ github.ref_name }}
+          TEST_REPO: ${{ needs.setup.outputs.repo_id }}
+          SCOPE_REPO: ${{ needs.setup.outputs.scope_repo_id }}
+        run: >-
+          python3 tests/acceptance/live.py --mode purge --confirm-disposable
+          --namespace "$TEST_NAMESPACE" --github-repository "$CLAIM_REPOSITORY" --branch "$CLAIM_BRANCH"
+          --repo-id "$TEST_REPO" --scope-repo-id "$SCOPE_REPO"
