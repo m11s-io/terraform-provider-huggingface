@@ -1,0 +1,484 @@
+[
+  {
+    "label": "create",
+    "method": "POST",
+    "path": "/api/repos/create",
+    "request": {
+      "name": "terraform-provider-probe-fixture-2",
+      "private": true,
+      "type": "model"
+    },
+    "authenticated": true,
+    "status": 200,
+    "response": {
+      "url": "https://huggingface.co/test-owner/terraform-provider-probe-fixture-2",
+      "name": "test-owner/terraform-provider-probe-fixture-2",
+      "id": "000000000000000000000005",
+      "filesCopyPending": false
+    },
+    "link": null
+  },
+  {
+    "label": "duplicate repo",
+    "method": "POST",
+    "path": "/api/repos/create",
+    "request": {
+      "name": "terraform-provider-probe-fixture-2",
+      "private": true,
+      "type": "model"
+    },
+    "authenticated": true,
+    "status": 409,
+    "response": {
+      "error": "You already created this model repo: test-owner/terraform-provider-probe-fixture-2",
+      "url": "https://huggingface.co/test-owner/terraform-provider-probe-fixture-2"
+    },
+    "link": null
+  },
+  {
+    "label": "private repo anonymous",
+    "method": "GET",
+    "path": "/api/models/test-owner/terraform-provider-probe-fixture-2",
+    "request": null,
+    "authenticated": false,
+    "status": 401,
+    "response": {
+      "error": "Invalid username or password."
+    },
+    "link": null
+  },
+  {
+    "label": "explicit false visibility",
+    "method": "PUT",
+    "path": "/api/models/test-owner/terraform-provider-probe-fixture-2/settings",
+    "request": {
+      "private": false
+    },
+    "authenticated": true,
+    "status": 200,
+    "response": {
+      "private": false
+    },
+    "link": null
+  },
+  {
+    "label": "confirm public",
+    "method": "GET",
+    "path": "/api/models/test-owner/terraform-provider-probe-fixture-2",
+    "request": null,
+    "authenticated": true,
+    "status": 200,
+    "response": {
+      "_id": "000000000000000000000005",
+      "id": "test-owner/terraform-provider-probe-fixture-2",
+      "private": false,
+      "tags": [
+        "region:us"
+      ],
+      "downloads": 0,
+      "likes": 0,
+      "modelId": "test-owner/terraform-provider-probe-fixture-2",
+      "author": "test-owner",
+      "sha": "3f28722999ffd831ccb52927abeba6036f5c5445",
+      "lastModified": "2026-01-01T00:00:00Z",
+      "gated": false,
+      "disabled": false,
+      "config": {},
+      "siblings": [
+        {
+          "rfilename": ".gitattributes"
+        }
+      ],
+      "spaces": [],
+      "createdAt": "2026-01-01T00:00:00Z",
+      "usedStorage": 0
+    },
+    "link": null
+  },
+  {
+    "label": "restore private",
+    "method": "PUT",
+    "path": "/api/models/test-owner/terraform-provider-probe-fixture-2/settings",
+    "request": {
+      "private": true
+    },
+    "authenticated": true,
+    "status": 200,
+    "response": {
+      "private": true
+    },
+    "link": null
+  },
+  {
+    "label": "create pagination test binding",
+    "method": "POST",
+    "path": "/api/models/test-owner/terraform-provider-probe-fixture-2/settings/trusted-publishers",
+    "request": {
+      "issuerUrl": "https://token.actions.githubusercontent.com",
+      "claims": {
+        "repository": {
+          "kind": "eq",
+          "value": "example/training"
+        },
+        "ref": {
+          "kind": "eq",
+          "value": "refs/heads/disposable-hf-probe-fixture-2"
+        }
+      }
+    },
+    "authenticated": true,
+    "status": 200,
+    "response": {
+      "_id": "000000000000000000000006",
+      "issuerUrl": "https://token.actions.githubusercontent.com",
+      "claims": {
+        "repository": {
+          "kind": "eq",
+          "value": "example/training"
+        },
+        "ref": {
+          "kind": "eq",
+          "value": "refs/heads/disposable-hf-probe-fixture-2"
+        }
+      },
+      "configuredBy": {
+        "_id": "000000000000000000000002",
+        "name": "test-owner",
+        "type": "user"
+      },
+      "createdAt": "2026-01-01T00:00:00Z"
+    },
+    "link": null
+  },
+  {
+    "label": "create pagination test binding",
+    "method": "POST",
+    "path": "/api/models/test-owner/terraform-provider-probe-fixture-2/settings/trusted-publishers",
+    "request": {
+      "issuerUrl": "https://token.actions.githubusercontent.com",
+      "claims": {
+        "repository": {
+          "kind": "eq",
+          "value": "example/training"
+        },
+        "ref": {
+          "kind": "eq",
+          "value": "refs/heads/disposable-hf-probe-fixture-3"
+        }
+      }
+    },
+    "authenticated": true,
+    "status": 200,
+    "response": {
+      "_id": "000000000000000000000007",
+      "issuerUrl": "https://token.actions.githubusercontent.com",
+      "claims": {
+        "repository": {
+          "kind": "eq",
+          "value": "example/training"
+        },
+        "ref": {
+          "kind": "eq",
+          "value": "refs/heads/disposable-hf-probe-fixture-3"
+        }
+      },
+      "configuredBy": {
+        "_id": "000000000000000000000002",
+        "name": "test-owner",
+        "type": "user"
+      },
+      "createdAt": "2026-01-01T00:00:00Z"
+    },
+    "link": null
+  },
+  {
+    "label": "pagination ",
+    "method": "GET",
+    "path": "/api/models/test-owner/terraform-provider-probe-fixture-2/settings/trusted-publishers",
+    "request": null,
+    "authenticated": true,
+    "status": 200,
+    "response": [
+      {
+        "_id": "000000000000000000000006",
+        "issuerUrl": "https://token.actions.githubusercontent.com",
+        "claims": {
+          "repository": {
+            "kind": "eq",
+            "value": "example/training"
+          },
+          "ref": {
+            "kind": "eq",
+            "value": "refs/heads/disposable-hf-probe-fixture-2"
+          }
+        },
+        "configuredBy": {
+          "_id": "000000000000000000000002",
+          "name": "test-owner",
+          "type": "user"
+        },
+        "createdAt": "2026-01-01T00:00:00Z"
+      },
+      {
+        "_id": "000000000000000000000007",
+        "issuerUrl": "https://token.actions.githubusercontent.com",
+        "claims": {
+          "repository": {
+            "kind": "eq",
+            "value": "example/training"
+          },
+          "ref": {
+            "kind": "eq",
+            "value": "refs/heads/disposable-hf-probe-fixture-3"
+          }
+        },
+        "configuredBy": {
+          "_id": "000000000000000000000002",
+          "name": "test-owner",
+          "type": "user"
+        },
+        "createdAt": "2026-01-01T00:00:00Z"
+      }
+    ],
+    "link": null
+  },
+  {
+    "label": "pagination ?limit=1",
+    "method": "GET",
+    "path": "/api/models/test-owner/terraform-provider-probe-fixture-2/settings/trusted-publishers?limit=1",
+    "request": null,
+    "authenticated": true,
+    "status": 200,
+    "response": [
+      {
+        "_id": "000000000000000000000006",
+        "issuerUrl": "https://token.actions.githubusercontent.com",
+        "claims": {
+          "repository": {
+            "kind": "eq",
+            "value": "example/training"
+          },
+          "ref": {
+            "kind": "eq",
+            "value": "refs/heads/disposable-hf-probe-fixture-2"
+          }
+        },
+        "configuredBy": {
+          "_id": "000000000000000000000002",
+          "name": "test-owner",
+          "type": "user"
+        },
+        "createdAt": "2026-01-01T00:00:00Z"
+      },
+      {
+        "_id": "000000000000000000000007",
+        "issuerUrl": "https://token.actions.githubusercontent.com",
+        "claims": {
+          "repository": {
+            "kind": "eq",
+            "value": "example/training"
+          },
+          "ref": {
+            "kind": "eq",
+            "value": "refs/heads/disposable-hf-probe-fixture-3"
+          }
+        },
+        "configuredBy": {
+          "_id": "000000000000000000000002",
+          "name": "test-owner",
+          "type": "user"
+        },
+        "createdAt": "2026-01-01T00:00:00Z"
+      }
+    ],
+    "link": null
+  },
+  {
+    "label": "pagination ?limit=1&cursor=invalid",
+    "method": "GET",
+    "path": "/api/models/test-owner/terraform-provider-probe-fixture-2/settings/trusted-publishers?limit=1&cursor=invalid",
+    "request": null,
+    "authenticated": true,
+    "status": 200,
+    "response": [
+      {
+        "_id": "000000000000000000000006",
+        "issuerUrl": "https://token.actions.githubusercontent.com",
+        "claims": {
+          "repository": {
+            "kind": "eq",
+            "value": "example/training"
+          },
+          "ref": {
+            "kind": "eq",
+            "value": "refs/heads/disposable-hf-probe-fixture-2"
+          }
+        },
+        "configuredBy": {
+          "_id": "000000000000000000000002",
+          "name": "test-owner",
+          "type": "user"
+        },
+        "createdAt": "2026-01-01T00:00:00Z"
+      },
+      {
+        "_id": "000000000000000000000007",
+        "issuerUrl": "https://token.actions.githubusercontent.com",
+        "claims": {
+          "repository": {
+            "kind": "eq",
+            "value": "example/training"
+          },
+          "ref": {
+            "kind": "eq",
+            "value": "refs/heads/disposable-hf-probe-fixture-3"
+          }
+        },
+        "configuredBy": {
+          "_id": "000000000000000000000002",
+          "name": "test-owner",
+          "type": "user"
+        },
+        "createdAt": "2026-01-01T00:00:00Z"
+      }
+    ],
+    "link": null
+  },
+  {
+    "label": "pagination ?limit=1&offset=1",
+    "method": "GET",
+    "path": "/api/models/test-owner/terraform-provider-probe-fixture-2/settings/trusted-publishers?limit=1&offset=1",
+    "request": null,
+    "authenticated": true,
+    "status": 200,
+    "response": [
+      {
+        "_id": "000000000000000000000006",
+        "issuerUrl": "https://token.actions.githubusercontent.com",
+        "claims": {
+          "repository": {
+            "kind": "eq",
+            "value": "example/training"
+          },
+          "ref": {
+            "kind": "eq",
+            "value": "refs/heads/disposable-hf-probe-fixture-2"
+          }
+        },
+        "configuredBy": {
+          "_id": "000000000000000000000002",
+          "name": "test-owner",
+          "type": "user"
+        },
+        "createdAt": "2026-01-01T00:00:00Z"
+      },
+      {
+        "_id": "000000000000000000000007",
+        "issuerUrl": "https://token.actions.githubusercontent.com",
+        "claims": {
+          "repository": {
+            "kind": "eq",
+            "value": "example/training"
+          },
+          "ref": {
+            "kind": "eq",
+            "value": "refs/heads/disposable-hf-probe-fixture-3"
+          }
+        },
+        "configuredBy": {
+          "_id": "000000000000000000000002",
+          "name": "test-owner",
+          "type": "user"
+        },
+        "createdAt": "2026-01-01T00:00:00Z"
+      }
+    ],
+    "link": null
+  },
+  {
+    "label": "private publishers anonymous",
+    "method": "GET",
+    "path": "/api/models/test-owner/terraform-provider-probe-fixture-2/settings/trusted-publishers",
+    "request": null,
+    "authenticated": false,
+    "status": 401,
+    "response": {
+      "error": "Invalid username or password."
+    },
+    "link": null
+  },
+  {
+    "label": "cleanup binding",
+    "method": "DELETE",
+    "path": "/api/models/test-owner/terraform-provider-probe-fixture-2/settings/trusted-publishers/000000000000000000000006",
+    "request": null,
+    "authenticated": true,
+    "status": 200,
+    "response": {
+      "text": "OK"
+    },
+    "link": null
+  },
+  {
+    "label": "cleanup binding",
+    "method": "DELETE",
+    "path": "/api/models/test-owner/terraform-provider-probe-fixture-2/settings/trusted-publishers/000000000000000000000007",
+    "request": null,
+    "authenticated": true,
+    "status": 200,
+    "response": {
+      "text": "OK"
+    },
+    "link": null
+  },
+  {
+    "label": "confirmed empty publishers",
+    "method": "GET",
+    "path": "/api/models/test-owner/terraform-provider-probe-fixture-2/settings/trusted-publishers",
+    "request": null,
+    "authenticated": true,
+    "status": 200,
+    "response": [],
+    "link": null
+  },
+  {
+    "label": "cleanup repo",
+    "method": "DELETE",
+    "path": "/api/repos/delete",
+    "request": {
+      "name": "terraform-provider-probe-fixture-2",
+      "organization": "test-owner",
+      "type": "model"
+    },
+    "authenticated": true,
+    "status": 200,
+    "response": {
+      "text": "OK"
+    },
+    "link": null
+  },
+  {
+    "label": "deleted repo info",
+    "method": "GET",
+    "path": "/api/models/test-owner/terraform-provider-probe-fixture-2",
+    "request": null,
+    "authenticated": true,
+    "status": 404,
+    "response": {
+      "error": "Repository not found"
+    },
+    "link": null
+  },
+  {
+    "label": "deleted parent publishers",
+    "method": "GET",
+    "path": "/api/models/test-owner/terraform-provider-probe-fixture-2/settings/trusted-publishers",
+    "request": null,
+    "authenticated": true,
+    "status": 404,
+    "response": {
+      "error": "Repository not found"
+    },
+    "link": null
+  }
+]

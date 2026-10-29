@@ -1,0 +1,10 @@
+[
+  {"path":"/api/whoami-v2","method":"get","id":"WhoAmI","source":"upstream"},
+  {"path":"/api/repos/create","method":"post","id":"CreateRepository","source":"upstream"},
+  {"path":"/api/models/{namespace}/{repo}/settings","method":"put","id":"UpdateModelSettings","source":"upstream"},
+  {"path":"/api/models/{namespace}/{name}","method":"get","id":"GetModel","source":"overlay"},
+  {"path":"/api/repos/delete","method":"delete","id":"DeleteRepository","source":"overlay"},
+  {"path":"/api/models/{namespace}/{name}/settings/trusted-publishers","method":"get","id":"ListTrustedPublishers","source":"overlay"},
+  {"path":"/api/models/{namespace}/{name}/settings/trusted-publishers","method":"post","id":"CreateTrustedPublisher","source":"overlay"},
+  {"path":"/api/models/{namespace}/{name}/settings/trusted-publishers/{publisher_id}","method":"delete","id":"DeleteTrustedPublisher","source":"overlay"}
+]

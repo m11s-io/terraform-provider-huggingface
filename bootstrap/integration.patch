@@ -1,0 +1,97 @@
+--- a/main.tf
++++ b/main.tf
+@@ -1,5 +1,9 @@
+ terraform {
+   required_providers {
++    huggingface = {
++      source  = "registry.terraform.io/m11s-io/huggingface"
++      version = "= 0.1.0" # Target release; publish and verify before applying.
++    }
+     github = {
+       source  = "integrations/github"
+       version = "6.12.1"
+@@ -15,3 +19,6 @@
+     pem_file        = var.github_app_pem_file
+   }
+ }
++
++# HF_TOKEN comes from the apply environment.
++provider "huggingface" {}
+--- a/variables.tf
++++ b/variables.tf
+@@ -43,3 +43,17 @@
+   type        = string
+   sensitive   = true
+ }
++
++variable "huggingface_namespace" {
++  description = "Chosen HF owner; required and never inferred from GitHub"
++  type        = string
++  validation {
++    condition     = can(regex("^[A-Za-z0-9][A-Za-z0-9._-]*$", var.huggingface_namespace))
++    error_message = "Use a valid HF user or organization namespace."
++  }
++}
++variable "huggingface_model_private" {
++  description = "Keep experimental model private until public release is selected"
++  type        = bool
++  default     = true
++}
+--- /dev/null
++++ b/huggingface.tf
+@@ -0,0 +1,19 @@
++resource "huggingface_repository" "timestral_openvino" {
++  namespace       = var.huggingface_namespace
++  name            = "Timestral-5M-OpenVINO-experimental"
++  repo_type       = "model"
++  private         = var.huggingface_model_private
++  deletion_policy = "retain"
++  lifecycle { prevent_destroy = true }
++}
++resource "huggingface_trusted_publisher" "timestral_openvino" {
++  repo_id           = huggingface_repository.timestral_openvino.repo_id
++  github_repository = github_repository.docker_images_public.full_name
++  branch            = "main"
++  workflow          = "timestral-openvino.yaml"
++}
++resource "github_actions_variable" "timestral_hf_repo" {
++  repository    = github_repository.docker_images_public.name
++  variable_name = "HF_TIMESTRAL_OPENVINO_REPO"
++  value         = huggingface_repository.timestral_openvino.repo_id
++}
+--- /dev/null
++++ b/outputs.tf
+@@ -0,0 +1,12 @@
++output "huggingface_timestral_repo_id" {
++  value = huggingface_repository.timestral_openvino.repo_id
++}
++output "huggingface_timestral_url" {
++  value = huggingface_repository.timestral_openvino.url
++}
++output "huggingface_timestral_publisher_id" {
++  value = huggingface_trusted_publisher.timestral_openvino.publisher_id
++}
++output "huggingface_timestral_setup_id" {
++  value = huggingface_trusted_publisher.timestral_openvino.id
++}
+--- a/CLAUDE.md
++++ b/CLAUDE.md
+@@ -37,3 +37,18 @@
+ tofu apply
+ tofu fmt -recursive
+ ```
++
++## Hugging Face setup
++
++Bootstrap the provider GitHub repository independently, enroll its registry and
++publish an installable signed version before adding the HF requirement. The
++0.1.0 pin is a target until that release exists; verify the actual version with
++normal tofu init and review its lockfile before applying. Development overrides
++are local validation only and must not enter this production configuration.
++
++Set huggingface_namespace deliberately; visibility defaults to private. Supply
++HF_TOKEN in the apply environment. Retain plus prevent_destroy protects the
++model. No organization-wide Actions permissions or model files are managed.
++Publishing uses HF_OIDC_RESOURCE and job-scoped id-token: write, never a stored
++bootstrap token. Private404 ambiguity preserves state/error. Publisher API is
++undocumented; lost creates require explicit import, not blind replay.

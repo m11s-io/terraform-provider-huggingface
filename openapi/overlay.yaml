@@ -1,0 +1,163 @@
+# Provider-local additive overlay format v1. Targets are strict JSON pointers;
+# update keys MUST be absent. It cannot rewrite a verified upstream operation.
+version: 1
+provenance: ../docs/api-contract/api-contract.md
+# Exact source and evidence hashes are recorded in provenance.json.
+# Model routes: official SDK db254a305a29370d2e08859000d0d40c2897c8db,
+# src/huggingface_hub/hf_api.py, independently exercised with a machine PAT.
+# Publisher routes: undocumented UI API from TrustedPublishers-DP3H7WBD.js,
+# independently exercised with a machine PAT. No individual GET/update exists.
+actions:
+  - target: /components/schemas
+    update:
+      ModelInfo:
+        type: object
+        required: [id, private]
+        properties:
+          id: {type: string}
+          private: {type: boolean}
+        # Retain all artifact/telemetry metadata without inventing its schema.
+        additionalProperties: true
+      DeleteRepoRequest:
+        type: object
+        required: [name, organization, type]
+        properties:
+          name: {type: string}
+          organization: {type: string}
+          type: {type: string, const: model}
+      PublisherClaim:
+        type: object
+        required: [kind, value]
+        properties:
+          # Only these two operators were exercised. Unknown operators/claims
+          # must be reported by the handwritten domain wrapper, never widened.
+          kind: {type: string, enum: [eq, prefix]}
+          value: {type: string}
+        additionalProperties: true
+      CreatePublisherRequest:
+        type: object
+        required: [issuerUrl, claims]
+        properties:
+          issuerUrl: {type: string, const: 'https://token.actions.githubusercontent.com'}
+          claims:
+            type: object
+            additionalProperties: {$ref: '#/components/schemas/PublisherClaim'}
+      TrustedPublisher:
+        type: object
+        required: [_id, issuerUrl, claims, configuredBy, createdAt]
+        properties:
+          _id: {type: string, pattern: '^[0-9a-fA-F]{24}$'}
+          issuerUrl: {type: string}
+          claims:
+            type: object
+            additionalProperties: {$ref: '#/components/schemas/PublisherClaim'}
+          configuredBy:
+            type: object
+            additionalProperties: true
+          # Keep original timestamp text; no managed telemetry normalization.
+          createdAt: {type: string}
+        additionalProperties: true
+      APIError:
+        type: object
+        required: [error]
+        properties:
+          error: {type: string}
+        additionalProperties: true
+  - target: /paths
+    update:
+      /api/models/{namespace}/{name}:
+        parameters:
+          - {name: namespace, in: path, required: true, schema: {type: string}}
+          - {name: name, in: path, required: true, schema: {type: string}}
+        get:
+          summary: Read model (SDK and machine-token verified)
+          responses:
+            '200':
+              description: Model info including arbitrary artifact metadata
+              content:
+                application/json:
+                  schema: {$ref: '#/components/schemas/ModelInfo'}
+            '401':
+              description: Anonymous private model access denied
+              content:
+                application/json:
+                  schema: {$ref: '#/components/schemas/APIError'}
+            '404':
+              description: Missing model; permission ambiguity must be handled by caller
+              content:
+                application/json:
+                  schema: {$ref: '#/components/schemas/APIError'}
+      /api/repos/delete:
+        delete:
+          summary: Delete model repository (SDK and machine-token verified)
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema: {$ref: '#/components/schemas/DeleteRepoRequest'}
+          responses:
+            '200':
+              description: Deleted
+              content:
+                text/plain:
+                  schema: {type: string, const: OK}
+      /api/models/{namespace}/{name}/settings/trusted-publishers:
+        parameters:
+          - {name: namespace, in: path, required: true, schema: {type: string}}
+          - {name: name, in: path, required: true, schema: {type: string}}
+        get:
+          summary: List trusted publishers (undocumented UI API, PAT verified)
+          description: >-
+            Observed JSON array at sizes 0, 1 and 2, without Link. limit/cursor/offset
+            were ignored at size 2. No arbitrary-scale completeness is established.
+            Caller must honor future Link headers and reject unknown/truncated shapes.
+          responses:
+            '200':
+              description: Publisher array, no invented paging envelope
+              content:
+                application/json:
+                  schema:
+                    type: array
+                    items: {$ref: '#/components/schemas/TrustedPublisher'}
+            '401':
+              description: Anonymous private repo access denied
+              content:
+                application/json:
+                  schema: {$ref: '#/components/schemas/APIError'}
+            '404':
+              description: Missing parent model; permission ambiguity remains
+              content:
+                application/json:
+                  schema: {$ref: '#/components/schemas/APIError'}
+        post:
+          summary: Create one publisher (undocumented UI API, PAT verified)
+          description: Identical creates return 200 with distinct IDs; never blindly retry.
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema: {$ref: '#/components/schemas/CreatePublisherRequest'}
+          responses:
+            '200':
+              description: Created binding
+              content:
+                application/json:
+                  schema: {$ref: '#/components/schemas/TrustedPublisher'}
+      /api/models/{namespace}/{name}/settings/trusted-publishers/{publisher_id}:
+        parameters:
+          - {name: namespace, in: path, required: true, schema: {type: string}}
+          - {name: name, in: path, required: true, schema: {type: string}}
+          - {name: publisher_id, in: path, required: true, schema: {type: string}}
+        delete:
+          summary: Delete only this publisher (undocumented UI API, PAT verified)
+          responses:
+            '200':
+              description: Deleted, other bindings preserved
+              content:
+                text/plain:
+                  schema: {type: string, const: OK}
+            '404':
+              description: Publisher not found
+              content:
+                application/json:
+                  schema: {$ref: '#/components/schemas/APIError'}

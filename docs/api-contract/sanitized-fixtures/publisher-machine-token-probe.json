@@ -1,0 +1,364 @@
+[
+  {
+    "label": "initial list",
+    "method": "GET",
+    "path": "/api/models/test-owner/terraform-provider-probe-fixture-1/settings/trusted-publishers",
+    "request": null,
+    "status": 200,
+    "response": [],
+    "request_id": "fixture-request-id",
+    "link": null
+  },
+  {
+    "label": "create first",
+    "method": "POST",
+    "path": "/api/models/test-owner/terraform-provider-probe-fixture-1/settings/trusted-publishers",
+    "request": {
+      "issuerUrl": "https://token.actions.githubusercontent.com",
+      "claims": {
+        "repository": {
+          "kind": "eq",
+          "value": "example/training"
+        },
+        "ref": {
+          "kind": "eq",
+          "value": "refs/heads/disposable-hf-probe-fixture-1"
+        },
+        "workflow_ref": {
+          "kind": "prefix",
+          "value": "example/training/.github/workflows/disposable-provider-probe.yaml@"
+        }
+      }
+    },
+    "status": 200,
+    "response": {
+      "_id": "000000000000000000000001",
+      "issuerUrl": "https://token.actions.githubusercontent.com",
+      "claims": {
+        "repository": {
+          "kind": "eq",
+          "value": "example/training"
+        },
+        "ref": {
+          "kind": "eq",
+          "value": "refs/heads/disposable-hf-probe-fixture-1"
+        },
+        "workflow_ref": {
+          "kind": "prefix",
+          "value": "example/training/.github/workflows/disposable-provider-probe.yaml@"
+        }
+      },
+      "configuredBy": {
+        "_id": "000000000000000000000002",
+        "name": "test-owner",
+        "type": "user"
+      },
+      "createdAt": "2026-01-01T00:00:00Z"
+    },
+    "request_id": "fixture-request-id",
+    "link": null
+  },
+  {
+    "label": "list after first",
+    "method": "GET",
+    "path": "/api/models/test-owner/terraform-provider-probe-fixture-1/settings/trusted-publishers",
+    "request": null,
+    "status": 200,
+    "response": [
+      {
+        "_id": "000000000000000000000001",
+        "issuerUrl": "https://token.actions.githubusercontent.com",
+        "claims": {
+          "repository": {
+            "kind": "eq",
+            "value": "example/training"
+          },
+          "ref": {
+            "kind": "eq",
+            "value": "refs/heads/disposable-hf-probe-fixture-1"
+          },
+          "workflow_ref": {
+            "kind": "prefix",
+            "value": "example/training/.github/workflows/disposable-provider-probe.yaml@"
+          }
+        },
+        "configuredBy": {
+          "_id": "000000000000000000000002",
+          "name": "test-owner",
+          "type": "user"
+        },
+        "createdAt": "2026-01-01T00:00:00Z"
+      }
+    ],
+    "request_id": "fixture-request-id",
+    "link": null
+  },
+  {
+    "label": "read individual",
+    "method": "GET",
+    "path": "/api/models/test-owner/terraform-provider-probe-fixture-1/settings/trusted-publishers/000000000000000000000001",
+    "request": null,
+    "status": 404,
+    "response": {
+      "error": "Sorry, we can't find the page you are looking for."
+    },
+    "request_id": "fixture-request-id",
+    "link": null
+  },
+  {
+    "label": "duplicate first",
+    "method": "POST",
+    "path": "/api/models/test-owner/terraform-provider-probe-fixture-1/settings/trusted-publishers",
+    "request": {
+      "issuerUrl": "https://token.actions.githubusercontent.com",
+      "claims": {
+        "repository": {
+          "kind": "eq",
+          "value": "example/training"
+        },
+        "ref": {
+          "kind": "eq",
+          "value": "refs/heads/disposable-hf-probe-fixture-1"
+        },
+        "workflow_ref": {
+          "kind": "prefix",
+          "value": "example/training/.github/workflows/disposable-provider-probe.yaml@"
+        }
+      }
+    },
+    "status": 200,
+    "response": {
+      "_id": "000000000000000000000003",
+      "issuerUrl": "https://token.actions.githubusercontent.com",
+      "claims": {
+        "repository": {
+          "kind": "eq",
+          "value": "example/training"
+        },
+        "ref": {
+          "kind": "eq",
+          "value": "refs/heads/disposable-hf-probe-fixture-1"
+        },
+        "workflow_ref": {
+          "kind": "prefix",
+          "value": "example/training/.github/workflows/disposable-provider-probe.yaml@"
+        }
+      },
+      "configuredBy": {
+        "_id": "000000000000000000000002",
+        "name": "test-owner",
+        "type": "user"
+      },
+      "createdAt": "2026-01-01T00:00:00Z"
+    },
+    "request_id": "fixture-request-id",
+    "link": null
+  },
+  {
+    "label": "create second",
+    "method": "POST",
+    "path": "/api/models/test-owner/terraform-provider-probe-fixture-1/settings/trusted-publishers",
+    "request": {
+      "issuerUrl": "https://token.actions.githubusercontent.com",
+      "claims": {
+        "repository": {
+          "kind": "eq",
+          "value": "example/training"
+        },
+        "ref": {
+          "kind": "eq",
+          "value": "refs/heads/disposable-hf-probe-fixture-1-second"
+        },
+        "workflow_ref": {
+          "kind": "prefix",
+          "value": "example/training/.github/workflows/disposable-provider-probe.yaml@"
+        }
+      }
+    },
+    "status": 200,
+    "response": {
+      "_id": "000000000000000000000004",
+      "issuerUrl": "https://token.actions.githubusercontent.com",
+      "claims": {
+        "repository": {
+          "kind": "eq",
+          "value": "example/training"
+        },
+        "ref": {
+          "kind": "eq",
+          "value": "refs/heads/disposable-hf-probe-fixture-1-second"
+        },
+        "workflow_ref": {
+          "kind": "prefix",
+          "value": "example/training/.github/workflows/disposable-provider-probe.yaml@"
+        }
+      },
+      "configuredBy": {
+        "_id": "000000000000000000000002",
+        "name": "test-owner",
+        "type": "user"
+      },
+      "createdAt": "2026-01-01T00:00:00Z"
+    },
+    "request_id": "fixture-request-id",
+    "link": null
+  },
+  {
+    "label": "delete first",
+    "method": "DELETE",
+    "path": "/api/models/test-owner/terraform-provider-probe-fixture-1/settings/trusted-publishers/000000000000000000000001",
+    "request": null,
+    "status": 200,
+    "response": {
+      "non_json": "OK"
+    },
+    "request_id": "fixture-request-id",
+    "link": null
+  },
+  {
+    "label": "list preserves second",
+    "method": "GET",
+    "path": "/api/models/test-owner/terraform-provider-probe-fixture-1/settings/trusted-publishers",
+    "request": null,
+    "status": 200,
+    "response": [
+      {
+        "_id": "000000000000000000000003",
+        "issuerUrl": "https://token.actions.githubusercontent.com",
+        "claims": {
+          "repository": {
+            "kind": "eq",
+            "value": "example/training"
+          },
+          "ref": {
+            "kind": "eq",
+            "value": "refs/heads/disposable-hf-probe-fixture-1"
+          },
+          "workflow_ref": {
+            "kind": "prefix",
+            "value": "example/training/.github/workflows/disposable-provider-probe.yaml@"
+          }
+        },
+        "configuredBy": {
+          "_id": "000000000000000000000002",
+          "name": "test-owner",
+          "type": "user"
+        },
+        "createdAt": "2026-01-01T00:00:00Z"
+      },
+      {
+        "_id": "000000000000000000000004",
+        "issuerUrl": "https://token.actions.githubusercontent.com",
+        "claims": {
+          "repository": {
+            "kind": "eq",
+            "value": "example/training"
+          },
+          "ref": {
+            "kind": "eq",
+            "value": "refs/heads/disposable-hf-probe-fixture-1-second"
+          },
+          "workflow_ref": {
+            "kind": "prefix",
+            "value": "example/training/.github/workflows/disposable-provider-probe.yaml@"
+          }
+        },
+        "configuredBy": {
+          "_id": "000000000000000000000002",
+          "name": "test-owner",
+          "type": "user"
+        },
+        "createdAt": "2026-01-01T00:00:00Z"
+      }
+    ],
+    "request_id": "fixture-request-id",
+    "link": null
+  },
+  {
+    "label": "delete already absent",
+    "method": "DELETE",
+    "path": "/api/models/test-owner/terraform-provider-probe-fixture-1/settings/trusted-publishers/000000000000000000000001",
+    "request": null,
+    "status": 404,
+    "response": {
+      "error": "Publisher not found"
+    },
+    "request_id": "fixture-request-id",
+    "link": null
+  },
+  {
+    "label": "delete second",
+    "method": "DELETE",
+    "path": "/api/models/test-owner/terraform-provider-probe-fixture-1/settings/trusted-publishers/000000000000000000000004",
+    "request": null,
+    "status": 200,
+    "response": {
+      "non_json": "OK"
+    },
+    "request_id": "fixture-request-id",
+    "link": null
+  },
+  {
+    "label": "list retains deliberate duplicate before parent cleanup",
+    "method": "GET",
+    "path": "/api/models/test-owner/terraform-provider-probe-fixture-1/settings/trusted-publishers",
+    "request": null,
+    "status": 200,
+    "response": [
+      {
+        "_id": "000000000000000000000003",
+        "issuerUrl": "https://token.actions.githubusercontent.com",
+        "claims": {
+          "repository": {
+            "kind": "eq",
+            "value": "example/training"
+          },
+          "ref": {
+            "kind": "eq",
+            "value": "refs/heads/disposable-hf-probe-fixture-1"
+          },
+          "workflow_ref": {
+            "kind": "prefix",
+            "value": "example/training/.github/workflows/disposable-provider-probe.yaml@"
+          }
+        },
+        "configuredBy": {
+          "_id": "000000000000000000000002",
+          "name": "test-owner",
+          "type": "user"
+        },
+        "createdAt": "2026-01-01T00:00:00Z"
+      }
+    ],
+    "request_id": "fixture-request-id",
+    "link": null
+  },
+  {
+    "label": "cleanup disposable model",
+    "method": "DELETE",
+    "path": "/api/repos/delete",
+    "request": {
+      "name": "terraform-provider-probe-fixture-1",
+      "organization": "test-owner",
+      "type": "model"
+    },
+    "status": 200,
+    "response": {
+      "non_json": "OK"
+    },
+    "request_id": "fixture-request-id",
+    "link": null
+  },
+  {
+    "label": "verify model removed",
+    "method": "GET",
+    "path": "/api/models/test-owner/terraform-provider-probe-fixture-1",
+    "request": null,
+    "status": 404,
+    "response": {
+      "error": "Repository not found"
+    },
+    "request_id": "fixture-request-id",
+    "link": null
+  }
+]

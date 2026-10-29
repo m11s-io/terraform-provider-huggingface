@@ -1,0 +1,14 @@
+/dist/
+/bin/
+.terraform/
+*.tfstate*
+*.tfvars
+*.tfvars.json
+.superpowers/
+__pycache__/
+*.pyc
+/openapi/candidate.json
+/openapi/candidate-provenance.json
+/openapi/candidate.diff
+
+.tools/

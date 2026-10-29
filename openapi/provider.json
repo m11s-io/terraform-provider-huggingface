@@ -1,0 +1,2132 @@
+{
+  "components": {
+    "schemas": {
+      "APIError": {
+        "additionalProperties": true,
+        "properties": {
+          "error": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "error"
+        ],
+        "type": "object"
+      },
+      "CreatePublisherRequest": {
+        "properties": {
+          "claims": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/PublisherClaim"
+            },
+            "type": "object"
+          },
+          "issuerUrl": {
+            "const": "https://token.actions.githubusercontent.com",
+            "type": "string"
+          }
+        },
+        "required": [
+          "issuerUrl",
+          "claims"
+        ],
+        "type": "object"
+      },
+      "CreateRepoRequest": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "oneOf": [
+          {
+            "properties": {
+              "files": {
+                "items": {
+                  "properties": {
+                    "content": {
+                      "type": "string"
+                    },
+                    "encoding": {
+                      "enum": [
+                        "utf-8",
+                        "base64"
+                      ],
+                      "type": "string"
+                    },
+                    "path": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "content",
+                    "path"
+                  ],
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "license": {
+                "description": "The license of the repository. You can select 'Other' if your license is not in the list",
+                "enum": [
+                  "apache-2.0",
+                  "mit",
+                  "openrail",
+                  "bigscience-openrail-m",
+                  "creativeml-openrail-m",
+                  "bigscience-bloom-rail-1.0",
+                  "bigcode-openrail-m",
+                  "afl-3.0",
+                  "artistic-2.0",
+                  "bsl-1.0",
+                  "bsd",
+                  "bsd-2-clause",
+                  "bsd-3-clause",
+                  "bsd-3-clause-clear",
+                  "c-uda",
+                  "cc",
+                  "cc0-1.0",
+                  "cc-by-2.0",
+                  "cc-by-2.5",
+                  "cc-by-3.0",
+                  "cc-by-4.0",
+                  "cc-by-sa-3.0",
+                  "cc-by-sa-4.0",
+                  "cc-by-nc-2.0",
+                  "cc-by-nc-3.0",
+                  "cc-by-nc-4.0",
+                  "cc-by-nd-4.0",
+                  "cc-by-nc-nd-3.0",
+                  "cc-by-nc-nd-4.0",
+                  "cc-by-nc-sa-2.0",
+                  "cc-by-nc-sa-3.0",
+                  "cc-by-nc-sa-4.0",
+                  "cdla-sharing-1.0",
+                  "cdla-permissive-1.0",
+                  "cdla-permissive-2.0",
+                  "wtfpl",
+                  "ecl-2.0",
+                  "epl-1.0",
+                  "epl-2.0",
+                  "etalab-2.0",
+                  "eupl-1.1",
+                  "eupl-1.2",
+                  "agpl-3.0",
+                  "gfdl",
+                  "gpl",
+                  "gpl-2.0",
+                  "gpl-3.0",
+                  "lgpl",
+                  "lgpl-2.1",
+                  "lgpl-3.0",
+                  "isc",
+                  "h-research",
+                  "intel-research",
+                  "lppl-1.3c",
+                  "ms-pl",
+                  "apple-ascl",
+                  "apple-amlr",
+                  "mpl-2.0",
+                  "odc-by",
+                  "odbl",
+                  "openmdw-1.0",
+                  "openmdw-1.1",
+                  "openrail++",
+                  "osl-3.0",
+                  "postgresql",
+                  "ofl-1.1",
+                  "ncsa",
+                  "unlicense",
+                  "zlib",
+                  "pddl",
+                  "lgpl-lr",
+                  "deepfloyd-if-license",
+                  "fair-noncommercial-research-license",
+                  "llama2",
+                  "llama3",
+                  "llama3.1",
+                  "llama3.2",
+                  "llama3.3",
+                  "llama4",
+                  "grok2-community",
+                  "gemma",
+                  "unknown",
+                  "other"
+                ],
+                "type": "string"
+              },
+              "license_link": {
+                "anyOf": [
+                  {
+                    "const": "LICENSE",
+                    "type": "string"
+                  },
+                  {
+                    "const": "LICENSE.md",
+                    "type": "string"
+                  },
+                  {
+                    "format": "uri",
+                    "type": "string"
+                  }
+                ]
+              },
+              "license_name": {
+                "pattern": "^[a-z0-9-.]+$",
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "organization": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "private": {
+                "description": "Repository visibility. Defaults to public. Cannot be specified along with visibility.",
+                "type": [
+                  "boolean",
+                  "null"
+                ]
+              },
+              "region": {
+                "description": "The region where the repository is hosted.",
+                "enum": [
+                  "us",
+                  "eu"
+                ],
+                "type": "string"
+              },
+              "resourceGroupId": {
+                "anyOf": [
+                  {
+                    "maxLength": 24,
+                    "minLength": 24,
+                    "pattern": "^[0-9a-fA-F]{24}$",
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "type": {
+                "const": "dataset",
+                "type": "string"
+              },
+              "visibility": {
+                "description": "Repository visibility. `protected` is only supported for Spaces. Cannot be specified along with private.",
+                "enum": [
+                  "private",
+                  "public",
+                  "protected"
+                ],
+                "type": "string"
+              }
+            },
+            "required": [
+              "name",
+              "type"
+            ],
+            "type": "object"
+          },
+          {
+            "properties": {
+              "files": {
+                "items": {
+                  "properties": {
+                    "content": {
+                      "type": "string"
+                    },
+                    "encoding": {
+                      "enum": [
+                        "utf-8",
+                        "base64"
+                      ],
+                      "type": "string"
+                    },
+                    "path": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "content",
+                    "path"
+                  ],
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "license": {
+                "description": "The license of the repository. You can select 'Other' if your license is not in the list",
+                "enum": [
+                  "apache-2.0",
+                  "mit",
+                  "openrail",
+                  "bigscience-openrail-m",
+                  "creativeml-openrail-m",
+                  "bigscience-bloom-rail-1.0",
+                  "bigcode-openrail-m",
+                  "afl-3.0",
+                  "artistic-2.0",
+                  "bsl-1.0",
+                  "bsd",
+                  "bsd-2-clause",
+                  "bsd-3-clause",
+                  "bsd-3-clause-clear",
+                  "c-uda",
+                  "cc",
+                  "cc0-1.0",
+                  "cc-by-2.0",
+                  "cc-by-2.5",
+                  "cc-by-3.0",
+                  "cc-by-4.0",
+                  "cc-by-sa-3.0",
+                  "cc-by-sa-4.0",
+                  "cc-by-nc-2.0",
+                  "cc-by-nc-3.0",
+                  "cc-by-nc-4.0",
+                  "cc-by-nd-4.0",
+                  "cc-by-nc-nd-3.0",
+                  "cc-by-nc-nd-4.0",
+                  "cc-by-nc-sa-2.0",
+                  "cc-by-nc-sa-3.0",
+                  "cc-by-nc-sa-4.0",
+                  "cdla-sharing-1.0",
+                  "cdla-permissive-1.0",
+                  "cdla-permissive-2.0",
+                  "wtfpl",
+                  "ecl-2.0",
+                  "epl-1.0",
+                  "epl-2.0",
+                  "etalab-2.0",
+                  "eupl-1.1",
+                  "eupl-1.2",
+                  "agpl-3.0",
+                  "gfdl",
+                  "gpl",
+                  "gpl-2.0",
+                  "gpl-3.0",
+                  "lgpl",
+                  "lgpl-2.1",
+                  "lgpl-3.0",
+                  "isc",
+                  "h-research",
+                  "intel-research",
+                  "lppl-1.3c",
+                  "ms-pl",
+                  "apple-ascl",
+                  "apple-amlr",
+                  "mpl-2.0",
+                  "odc-by",
+                  "odbl",
+                  "openmdw-1.0",
+                  "openmdw-1.1",
+                  "openrail++",
+                  "osl-3.0",
+                  "postgresql",
+                  "ofl-1.1",
+                  "ncsa",
+                  "unlicense",
+                  "zlib",
+                  "pddl",
+                  "lgpl-lr",
+                  "deepfloyd-if-license",
+                  "fair-noncommercial-research-license",
+                  "llama2",
+                  "llama3",
+                  "llama3.1",
+                  "llama3.2",
+                  "llama3.3",
+                  "llama4",
+                  "grok2-community",
+                  "gemma",
+                  "unknown",
+                  "other"
+                ],
+                "type": "string"
+              },
+              "license_link": {
+                "anyOf": [
+                  {
+                    "const": "LICENSE",
+                    "type": "string"
+                  },
+                  {
+                    "const": "LICENSE.md",
+                    "type": "string"
+                  },
+                  {
+                    "format": "uri",
+                    "type": "string"
+                  }
+                ]
+              },
+              "license_name": {
+                "pattern": "^[a-z0-9-.]+$",
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "organization": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "private": {
+                "description": "Repository visibility. Defaults to public. Cannot be specified along with visibility.",
+                "type": [
+                  "boolean",
+                  "null"
+                ]
+              },
+              "region": {
+                "description": "The region where the repository is hosted.",
+                "enum": [
+                  "us",
+                  "eu"
+                ],
+                "type": "string"
+              },
+              "resourceGroupId": {
+                "anyOf": [
+                  {
+                    "maxLength": 24,
+                    "minLength": 24,
+                    "pattern": "^[0-9a-fA-F]{24}$",
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "type": {
+                "const": "model",
+                "default": "model",
+                "type": "string"
+              },
+              "visibility": {
+                "description": "Repository visibility. `protected` is only supported for Spaces. Cannot be specified along with private.",
+                "enum": [
+                  "private",
+                  "public",
+                  "protected"
+                ],
+                "type": "string"
+              }
+            },
+            "required": [
+              "name"
+            ],
+            "type": "object"
+          },
+          {
+            "properties": {
+              "files": {
+                "items": {
+                  "properties": {
+                    "content": {
+                      "type": "string"
+                    },
+                    "encoding": {
+                      "enum": [
+                        "utf-8",
+                        "base64"
+                      ],
+                      "type": "string"
+                    },
+                    "path": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "content",
+                    "path"
+                  ],
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "license": {
+                "description": "The license of the repository. You can select 'Other' if your license is not in the list",
+                "enum": [
+                  "apache-2.0",
+                  "mit",
+                  "openrail",
+                  "bigscience-openrail-m",
+                  "creativeml-openrail-m",
+                  "bigscience-bloom-rail-1.0",
+                  "bigcode-openrail-m",
+                  "afl-3.0",
+                  "artistic-2.0",
+                  "bsl-1.0",
+                  "bsd",
+                  "bsd-2-clause",
+                  "bsd-3-clause",
+                  "bsd-3-clause-clear",
+                  "c-uda",
+                  "cc",
+                  "cc0-1.0",
+                  "cc-by-2.0",
+                  "cc-by-2.5",
+                  "cc-by-3.0",
+                  "cc-by-4.0",
+                  "cc-by-sa-3.0",
+                  "cc-by-sa-4.0",
+                  "cc-by-nc-2.0",
+                  "cc-by-nc-3.0",
+                  "cc-by-nc-4.0",
+                  "cc-by-nd-4.0",
+                  "cc-by-nc-nd-3.0",
+                  "cc-by-nc-nd-4.0",
+                  "cc-by-nc-sa-2.0",
+                  "cc-by-nc-sa-3.0",
+                  "cc-by-nc-sa-4.0",
+                  "cdla-sharing-1.0",
+                  "cdla-permissive-1.0",
+                  "cdla-permissive-2.0",
+                  "wtfpl",
+                  "ecl-2.0",
+                  "epl-1.0",
+                  "epl-2.0",
+                  "etalab-2.0",
+                  "eupl-1.1",
+                  "eupl-1.2",
+                  "agpl-3.0",
+                  "gfdl",
+                  "gpl",
+                  "gpl-2.0",
+                  "gpl-3.0",
+                  "lgpl",
+                  "lgpl-2.1",
+                  "lgpl-3.0",
+                  "isc",
+                  "h-research",
+                  "intel-research",
+                  "lppl-1.3c",
+                  "ms-pl",
+                  "apple-ascl",
+                  "apple-amlr",
+                  "mpl-2.0",
+                  "odc-by",
+                  "odbl",
+                  "openmdw-1.0",
+                  "openmdw-1.1",
+                  "openrail++",
+                  "osl-3.0",
+                  "postgresql",
+                  "ofl-1.1",
+                  "ncsa",
+                  "unlicense",
+                  "zlib",
+                  "pddl",
+                  "lgpl-lr",
+                  "deepfloyd-if-license",
+                  "fair-noncommercial-research-license",
+                  "llama2",
+                  "llama3",
+                  "llama3.1",
+                  "llama3.2",
+                  "llama3.3",
+                  "llama4",
+                  "grok2-community",
+                  "gemma",
+                  "unknown",
+                  "other"
+                ],
+                "type": "string"
+              },
+              "license_link": {
+                "anyOf": [
+                  {
+                    "const": "LICENSE",
+                    "type": "string"
+                  },
+                  {
+                    "const": "LICENSE.md",
+                    "type": "string"
+                  },
+                  {
+                    "format": "uri",
+                    "type": "string"
+                  }
+                ]
+              },
+              "license_name": {
+                "pattern": "^[a-z0-9-.]+$",
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "organization": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "private": {
+                "description": "Repository visibility. Defaults to public. Cannot be specified along with visibility.",
+                "type": [
+                  "boolean",
+                  "null"
+                ]
+              },
+              "region": {
+                "description": "The region where the repository is hosted.",
+                "enum": [
+                  "us",
+                  "eu"
+                ],
+                "type": "string"
+              },
+              "resourceGroupId": {
+                "anyOf": [
+                  {
+                    "maxLength": 24,
+                    "minLength": 24,
+                    "pattern": "^[0-9a-fA-F]{24}$",
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "type": {
+                "const": "kernel",
+                "type": "string"
+              },
+              "visibility": {
+                "description": "Repository visibility. `protected` is only supported for Spaces. Cannot be specified along with private.",
+                "enum": [
+                  "private",
+                  "public",
+                  "protected"
+                ],
+                "type": "string"
+              }
+            },
+            "required": [
+              "name",
+              "type"
+            ],
+            "type": "object"
+          },
+          {
+            "properties": {
+              "devModeEnabled": {
+                "type": "boolean"
+              },
+              "files": {
+                "items": {
+                  "properties": {
+                    "content": {
+                      "type": "string"
+                    },
+                    "encoding": {
+                      "enum": [
+                        "utf-8",
+                        "base64"
+                      ],
+                      "type": "string"
+                    },
+                    "path": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "content",
+                    "path"
+                  ],
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "hardware": {
+                "description": "The hardware flavor of the space. If you select 'zero-a10g' or 'zerogpu', the SDK must be Gradio.",
+                "enum": [
+                  "cpu-basic",
+                  "cpu-upgrade",
+                  "cpu-performance",
+                  "cpu-xl",
+                  "sprx8",
+                  "zero-a10g",
+                  "t4-small",
+                  "t4-medium",
+                  "l4x1",
+                  "l4x4",
+                  "l40sx1",
+                  "l40sx4",
+                  "l40sx8",
+                  "a10g-small",
+                  "a10g-large",
+                  "a10g-largex2",
+                  "a10g-largex4",
+                  "a100-large",
+                  "a100x4",
+                  "a100x8",
+                  "h200",
+                  "h200x2",
+                  "h200x4",
+                  "h200x8",
+                  "rtx-pro-6000",
+                  "rtx-pro-6000x2",
+                  "rtx-pro-6000x4",
+                  "rtx-pro-6000x8",
+                  "inf2x6",
+                  "zerogpu"
+                ],
+                "type": "string"
+              },
+              "license": {
+                "description": "The license of the repository. You can select 'Other' if your license is not in the list",
+                "enum": [
+                  "apache-2.0",
+                  "mit",
+                  "openrail",
+                  "bigscience-openrail-m",
+                  "creativeml-openrail-m",
+                  "bigscience-bloom-rail-1.0",
+                  "bigcode-openrail-m",
+                  "afl-3.0",
+                  "artistic-2.0",
+                  "bsl-1.0",
+                  "bsd",
+                  "bsd-2-clause",
+                  "bsd-3-clause",
+                  "bsd-3-clause-clear",
+                  "c-uda",
+                  "cc",
+                  "cc0-1.0",
+                  "cc-by-2.0",
+                  "cc-by-2.5",
+                  "cc-by-3.0",
+                  "cc-by-4.0",
+                  "cc-by-sa-3.0",
+                  "cc-by-sa-4.0",
+                  "cc-by-nc-2.0",
+                  "cc-by-nc-3.0",
+                  "cc-by-nc-4.0",
+                  "cc-by-nd-4.0",
+                  "cc-by-nc-nd-3.0",
+                  "cc-by-nc-nd-4.0",
+                  "cc-by-nc-sa-2.0",
+                  "cc-by-nc-sa-3.0",
+                  "cc-by-nc-sa-4.0",
+                  "cdla-sharing-1.0",
+                  "cdla-permissive-1.0",
+                  "cdla-permissive-2.0",
+                  "wtfpl",
+                  "ecl-2.0",
+                  "epl-1.0",
+                  "epl-2.0",
+                  "etalab-2.0",
+                  "eupl-1.1",
+                  "eupl-1.2",
+                  "agpl-3.0",
+                  "gfdl",
+                  "gpl",
+                  "gpl-2.0",
+                  "gpl-3.0",
+                  "lgpl",
+                  "lgpl-2.1",
+                  "lgpl-3.0",
+                  "isc",
+                  "h-research",
+                  "intel-research",
+                  "lppl-1.3c",
+                  "ms-pl",
+                  "apple-ascl",
+                  "apple-amlr",
+                  "mpl-2.0",
+                  "odc-by",
+                  "odbl",
+                  "openmdw-1.0",
+                  "openmdw-1.1",
+                  "openrail++",
+                  "osl-3.0",
+                  "postgresql",
+                  "ofl-1.1",
+                  "ncsa",
+                  "unlicense",
+                  "zlib",
+                  "pddl",
+                  "lgpl-lr",
+                  "deepfloyd-if-license",
+                  "fair-noncommercial-research-license",
+                  "llama2",
+                  "llama3",
+                  "llama3.1",
+                  "llama3.2",
+                  "llama3.3",
+                  "llama4",
+                  "grok2-community",
+                  "gemma",
+                  "unknown",
+                  "other"
+                ],
+                "type": "string"
+              },
+              "license_link": {
+                "anyOf": [
+                  {
+                    "const": "LICENSE",
+                    "type": "string"
+                  },
+                  {
+                    "const": "LICENSE.md",
+                    "type": "string"
+                  },
+                  {
+                    "format": "uri",
+                    "type": "string"
+                  }
+                ]
+              },
+              "license_name": {
+                "pattern": "^[a-z0-9-.]+$",
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "organization": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "private": {
+                "description": "Repository visibility. Defaults to public. Cannot be specified along with visibility.",
+                "type": [
+                  "boolean",
+                  "null"
+                ]
+              },
+              "region": {
+                "description": "The region where the repository is hosted.",
+                "enum": [
+                  "us",
+                  "eu"
+                ],
+                "type": "string"
+              },
+              "resourceGroupId": {
+                "anyOf": [
+                  {
+                    "maxLength": 24,
+                    "minLength": 24,
+                    "pattern": "^[0-9a-fA-F]{24}$",
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "sdk": {
+                "description": "The Space SDK. `static` is free for everyone. `gradio` and `docker` run on compute: on the free `cpu-basic` flavor they require a subscription (PRO for users, Team/Enterprise for orgs), while paid hardware only requires billing (a payment method and prepaid credits).",
+                "enum": [
+                  "gradio",
+                  "docker",
+                  "static"
+                ],
+                "type": "string"
+              },
+              "sdkVersion": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "secrets": {
+                "default": [],
+                "items": {
+                  "properties": {
+                    "description": {
+                      "type": "string"
+                    },
+                    "key": {
+                      "pattern": "^[a-zA-Z][_a-zA-Z0-9]*$",
+                      "type": "string"
+                    },
+                    "value": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "key",
+                    "value"
+                  ],
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "short_description": {
+                "maxLength": 60,
+                "type": "string"
+              },
+              "sleepTimeSeconds": {
+                "anyOf": [
+                  {
+                    "exclusiveMinimum": 0,
+                    "maximum": 9007199254740991,
+                    "type": "integer"
+                  },
+                  {
+                    "const": -1,
+                    "type": "number"
+                  }
+                ]
+              },
+              "template": {
+                "type": "string"
+              },
+              "type": {
+                "const": "space",
+                "type": "string"
+              },
+              "variables": {
+                "default": [],
+                "items": {
+                  "properties": {
+                    "description": {
+                      "type": "string"
+                    },
+                    "key": {
+                      "pattern": "^[a-zA-Z][_a-zA-Z0-9]*$",
+                      "type": "string"
+                    },
+                    "value": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "key",
+                    "value"
+                  ],
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "visibility": {
+                "description": "Repository visibility. `protected` is only supported for Spaces. Cannot be specified along with private.",
+                "enum": [
+                  "private",
+                  "public",
+                  "protected"
+                ],
+                "type": "string"
+              },
+              "volumes": {
+                "description": "HuggingFace Buckets or Repos to mount as volumes in the Space container.",
+                "items": {
+                  "properties": {
+                    "mountPath": {
+                      "description": "Mount path inside the container, e.g. '/data'",
+                      "format": "starts_with",
+                      "pattern": "^\\/.*",
+                      "type": "string"
+                    },
+                    "path": {
+                      "description": "Subfolder prefix inside the bucket/repo to mount, e.g. 'path/to/dir'",
+                      "type": "string"
+                    },
+                    "readOnly": {
+                      "description": "Read-only mount (true for repos, false default for buckets)",
+                      "type": "boolean"
+                    },
+                    "revision": {
+                      "description": "Git revision (only for repos, defaults to 'main')",
+                      "type": "string"
+                    },
+                    "source": {
+                      "description": "Source identifier, e.g. 'username/my-bucket' or 'username/my-model'",
+                      "type": "string"
+                    },
+                    "type": {
+                      "enum": [
+                        "bucket",
+                        "model",
+                        "dataset",
+                        "space"
+                      ],
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "source",
+                    "mountPath"
+                  ],
+                  "type": "object"
+                },
+                "type": "array"
+              }
+            },
+            "required": [
+              "name",
+              "type",
+              "sdk"
+            ],
+            "type": "object"
+          }
+        ]
+      },
+      "DeleteRepoRequest": {
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "organization": {
+            "type": "string"
+          },
+          "type": {
+            "const": "model",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "organization",
+          "type"
+        ],
+        "type": "object"
+      },
+      "ModelInfo": {
+        "additionalProperties": true,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "private": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "private"
+        ],
+        "type": "object"
+      },
+      "PublisherClaim": {
+        "additionalProperties": true,
+        "properties": {
+          "kind": {
+            "enum": [
+              "eq",
+              "prefix"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "kind",
+          "value"
+        ],
+        "type": "object"
+      },
+      "TrustedPublisher": {
+        "additionalProperties": true,
+        "properties": {
+          "_id": {
+            "pattern": "^[0-9a-fA-F]{24}$",
+            "type": "string"
+          },
+          "claims": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/PublisherClaim"
+            },
+            "type": "object"
+          },
+          "configuredBy": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "issuerUrl": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "_id",
+          "issuerUrl",
+          "claims",
+          "configuredBy",
+          "createdAt"
+        ],
+        "type": "object"
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "scheme": "bearer",
+        "type": "http"
+      }
+    }
+  },
+  "info": {
+    "description": "We have open endpoints that you can use to retrieve information from the Hub as well as perform certain actions such as creating model, dataset or Space repos. We offer a wrapper Python client, [`huggingface_hub`](https://github.com/huggingface/huggingface_hub), and a JS client, [`huggingface.js`](https://github.com/huggingface/huggingface.js), that allow easy access to these endpoints. We also provide [webhooks](https://huggingface.co/docs/hub/webhooks) to receive real-time incremental info about repos. Enjoy!\n\nThe base URL for those endpoints below is `https://huggingface.co`. For example, to construct the `/api/models` call below, one can call the URL [https://huggingface.co/api/models](https://huggingface.co/api/models).\n\nIf you're an Agent, you might prefer the [markdown version OpenAPI spec](https://huggingface.co/.well-known/openapi.md).\n",
+    "title": "Hub API Endpoints",
+    "version": "0.0.1"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/api/models/{namespace}/{name}": {
+      "get": {
+        "operationId": "GetModel",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModelInfo"
+                }
+              }
+            },
+            "description": "Model info including arbitrary artifact metadata"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/APIError"
+                }
+              }
+            },
+            "description": "Anonymous private model access denied"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/APIError"
+                }
+              }
+            },
+            "description": "Missing model; permission ambiguity must be handled by caller"
+          }
+        },
+        "summary": "Read model (SDK and machine-token verified)"
+      },
+      "parameters": [
+        {
+          "in": "path",
+          "name": "namespace",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "path",
+          "name": "name",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ]
+    },
+    "/api/models/{namespace}/{name}/settings/trusted-publishers": {
+      "get": {
+        "description": "Observed JSON array at sizes 0, 1 and 2, without Link. limit/cursor/offset were ignored at size 2. No arbitrary-scale completeness is established. Caller must honor future Link headers and reject unknown/truncated shapes.",
+        "operationId": "ListTrustedPublishers",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/TrustedPublisher"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Publisher array, no invented paging envelope"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/APIError"
+                }
+              }
+            },
+            "description": "Anonymous private repo access denied"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/APIError"
+                }
+              }
+            },
+            "description": "Missing parent model; permission ambiguity remains"
+          }
+        },
+        "summary": "List trusted publishers (undocumented UI API, PAT verified)"
+      },
+      "parameters": [
+        {
+          "in": "path",
+          "name": "namespace",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "path",
+          "name": "name",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "post": {
+        "description": "Identical creates return 200 with distinct IDs; never blindly retry.",
+        "operationId": "CreateTrustedPublisher",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePublisherRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrustedPublisher"
+                }
+              }
+            },
+            "description": "Created binding"
+          }
+        },
+        "summary": "Create one publisher (undocumented UI API, PAT verified)"
+      }
+    },
+    "/api/models/{namespace}/{name}/settings/trusted-publishers/{publisher_id}": {
+      "delete": {
+        "operationId": "DeleteTrustedPublisher",
+        "responses": {
+          "200": {
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "const": "OK",
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Deleted, other bindings preserved"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/APIError"
+                }
+              }
+            },
+            "description": "Publisher not found"
+          }
+        },
+        "summary": "Delete only this publisher (undocumented UI API, PAT verified)"
+      },
+      "parameters": [
+        {
+          "in": "path",
+          "name": "namespace",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "path",
+          "name": "name",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "path",
+          "name": "publisher_id",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ]
+    },
+    "/api/models/{namespace}/{repo}/settings": {
+      "put": {
+        "description": "Update the settings of a repo",
+        "operationId": "UpdateModelSettings",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "namespace",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "repo",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$schema": "https://json-schema.org/draft/2020-12/schema",
+                "properties": {
+                  "discussionsDisabled": {
+                    "type": "boolean"
+                  },
+                  "discussionsSorting": {
+                    "enum": [
+                      "recently-created",
+                      "trending",
+                      "reactions"
+                    ],
+                    "type": "string"
+                  },
+                  "gated": {
+                    "anyOf": [
+                      {
+                        "const": false,
+                        "type": "boolean"
+                      },
+                      {
+                        "enum": [
+                          "auto",
+                          "manual"
+                        ],
+                        "type": "string"
+                      }
+                    ]
+                  },
+                  "gatedNotificationsEmail": {
+                    "format": "email",
+                    "pattern": "^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$",
+                    "type": "string"
+                  },
+                  "gatedNotificationsMode": {
+                    "enum": [
+                      "bulk",
+                      "real-time"
+                    ],
+                    "type": "string"
+                  },
+                  "gatedProfileSharing": {
+                    "anyOf": [
+                      {
+                        "properties": {
+                          "email": {
+                            "type": "boolean"
+                          },
+                          "username": {
+                            "const": true,
+                            "type": "boolean"
+                          }
+                        },
+                        "required": [
+                          "username",
+                          "email"
+                        ],
+                        "type": "object"
+                      },
+                      {
+                        "properties": {
+                          "email": {
+                            "const": false,
+                            "type": "boolean"
+                          },
+                          "username": {
+                            "const": false,
+                            "type": "boolean"
+                          }
+                        },
+                        "required": [
+                          "username",
+                          "email"
+                        ],
+                        "type": "object"
+                      }
+                    ],
+                    "description": "What Hugging Face shares with the repo authors when a user requests access. Defaults to the username and email."
+                  },
+                  "orgMembersGated": {
+                    "description": "If true, members of the owning org (except admins) must also go through the gated access-request flow.",
+                    "type": "boolean"
+                  },
+                  "private": {
+                    "type": "boolean"
+                  },
+                  "visibility": {
+                    "description": "Repository visibility. `protected` is only supported for Spaces.",
+                    "enum": [
+                      "private",
+                      "public",
+                      "protected"
+                    ],
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$schema": "https://json-schema.org/draft/2020-12/schema",
+                  "additionalProperties": false,
+                  "properties": {
+                    "discussionsDisabled": {
+                      "type": "boolean"
+                    },
+                    "discussionsSorting": {
+                      "enum": [
+                        "recently-created",
+                        "trending",
+                        "reactions"
+                      ],
+                      "type": "string"
+                    },
+                    "gated": {
+                      "anyOf": [
+                        {
+                          "const": false,
+                          "type": "boolean"
+                        },
+                        {
+                          "enum": [
+                            "auto",
+                            "manual"
+                          ],
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "gatedNotificationsEmail": {
+                      "format": "email",
+                      "pattern": "^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$",
+                      "type": "string"
+                    },
+                    "gatedNotificationsMode": {
+                      "enum": [
+                        "bulk",
+                        "real-time"
+                      ],
+                      "type": "string"
+                    },
+                    "gatedProfileSharing": {
+                      "anyOf": [
+                        {
+                          "additionalProperties": false,
+                          "properties": {
+                            "email": {
+                              "type": "boolean"
+                            },
+                            "username": {
+                              "const": true,
+                              "type": "boolean"
+                            }
+                          },
+                          "required": [
+                            "username",
+                            "email"
+                          ],
+                          "type": "object"
+                        },
+                        {
+                          "additionalProperties": false,
+                          "properties": {
+                            "email": {
+                              "const": false,
+                              "type": "boolean"
+                            },
+                            "username": {
+                              "const": false,
+                              "type": "boolean"
+                            }
+                          },
+                          "required": [
+                            "username",
+                            "email"
+                          ],
+                          "type": "object"
+                        }
+                      ],
+                      "description": "What Hugging Face shares with the repo authors when a user requests access. Defaults to the username and email."
+                    },
+                    "orgMembersGated": {
+                      "description": "If true, members of the owning org (except admins) must also go through the gated access-request flow.",
+                      "type": "boolean"
+                    },
+                    "private": {
+                      "type": "boolean"
+                    },
+                    "visibility": {
+                      "description": "Repository visibility. `protected` is only supported for Spaces.",
+                      "enum": [
+                        "private",
+                        "public",
+                        "protected"
+                      ],
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "The updated repo settings."
+          }
+        },
+        "summary": "Update repo settings",
+        "tags": [
+          "models"
+        ]
+      }
+    },
+    "/api/repos/create": {
+      "post": {
+        "operationId": "CreateRepository",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRepoRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$schema": "https://json-schema.org/draft/2020-12/schema",
+                  "additionalProperties": false,
+                  "properties": {
+                    "filesCopyPending": {
+                      "type": "boolean"
+                    },
+                    "id": {
+                      "description": "A hex string of 24 characters representing an ObjectId.",
+                      "maxLength": 24,
+                      "minLength": 24,
+                      "pattern": "^[0-9a-f]{24}$",
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "url": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "url",
+                    "name",
+                    "id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Repository created, url is given"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$schema": "https://json-schema.org/draft/2020-12/schema",
+                  "additionalProperties": false,
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "url": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error",
+                    "url"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Repository already exists, url is given"
+          }
+        },
+        "summary": "Create repository",
+        "tags": [
+          "repos"
+        ]
+      }
+    },
+    "/api/repos/delete": {
+      "delete": {
+        "operationId": "DeleteRepository",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteRepoRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "const": "OK",
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Deleted"
+          }
+        },
+        "summary": "Delete model repository (SDK and machine-token verified)"
+      }
+    },
+    "/api/whoami-v2": {
+      "get": {
+        "description": "Get information about the user and auth method used",
+        "operationId": "WhoAmI",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$schema": "https://json-schema.org/draft/2020-12/schema",
+                  "anyOf": [
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "auth": {
+                          "additionalProperties": false,
+                          "properties": {
+                            "accessToken": {
+                              "additionalProperties": false,
+                              "properties": {
+                                "createdAt": {
+                                  "format": "date-time",
+                                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+                                  "type": "string"
+                                },
+                                "displayName": {
+                                  "type": "string"
+                                },
+                                "fineGrained": {
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "canReadGatedRepos": {
+                                      "description": "Allow access to all public gated repos to which the user has access",
+                                      "type": "boolean"
+                                    },
+                                    "global": {
+                                      "items": {
+                                        "enum": [
+                                          "discussion.write",
+                                          "post.write"
+                                        ],
+                                        "type": "string"
+                                      },
+                                      "type": "array"
+                                    },
+                                    "scoped": {
+                                      "items": {
+                                        "additionalProperties": false,
+                                        "properties": {
+                                          "entity": {
+                                            "additionalProperties": false,
+                                            "properties": {
+                                              "_id": {
+                                                "description": "A hex string of 24 characters representing an ObjectId.",
+                                                "maxLength": 24,
+                                                "minLength": 24,
+                                                "pattern": "^[0-9a-f]{24}$",
+                                                "type": "string"
+                                              },
+                                              "name": {
+                                                "type": "string"
+                                              },
+                                              "type": {
+                                                "enum": [
+                                                  "dataset",
+                                                  "model",
+                                                  "space",
+                                                  "bucket",
+                                                  "kernel",
+                                                  "container",
+                                                  "collection",
+                                                  "org",
+                                                  "user",
+                                                  "resource-group",
+                                                  "oauth-app"
+                                                ],
+                                                "type": "string"
+                                              }
+                                            },
+                                            "required": [
+                                              "_id",
+                                              "type"
+                                            ],
+                                            "type": "object"
+                                          },
+                                          "permissions": {
+                                            "items": {
+                                              "type": "string"
+                                            },
+                                            "type": "array"
+                                          }
+                                        },
+                                        "required": [
+                                          "entity",
+                                          "permissions"
+                                        ],
+                                        "type": "object"
+                                      },
+                                      "type": "array"
+                                    }
+                                  },
+                                  "required": [
+                                    "scoped"
+                                  ],
+                                  "type": "object"
+                                },
+                                "role": {
+                                  "enum": [
+                                    "read",
+                                    "write",
+                                    "god",
+                                    "fineGrained"
+                                  ],
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "displayName",
+                                "role",
+                                "createdAt"
+                              ],
+                              "type": "object"
+                            },
+                            "expiresAt": {
+                              "format": "date-time",
+                              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+                              "type": "string"
+                            },
+                            "resource": {
+                              "additionalProperties": false,
+                              "properties": {
+                                "sub": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "sub"
+                              ],
+                              "type": "object"
+                            },
+                            "type": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "type"
+                          ],
+                          "type": "object"
+                        },
+                        "avatarUrl": {
+                          "type": "string"
+                        },
+                        "billingMode": {
+                          "enum": [
+                            "prepaid",
+                            "postpaid"
+                          ],
+                          "type": "string"
+                        },
+                        "canPay": {
+                          "type": "boolean"
+                        },
+                        "email": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "emailVerified": {
+                          "type": "boolean"
+                        },
+                        "fullname": {
+                          "type": "string"
+                        },
+                        "id": {
+                          "type": "string"
+                        },
+                        "isPro": {
+                          "type": "boolean"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "orgs": {
+                          "items": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "avatarUrl": {
+                                "type": "string"
+                              },
+                              "billingMode": {
+                                "enum": [
+                                  "prepaid",
+                                  "postpaid"
+                                ],
+                                "type": "string"
+                              },
+                              "canPay": {
+                                "type": "boolean"
+                              },
+                              "email": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              },
+                              "fullname": {
+                                "type": "string"
+                              },
+                              "id": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "periodEnd": {
+                                "type": [
+                                  "number",
+                                  "null"
+                                ]
+                              },
+                              "plan": {
+                                "enum": [
+                                  "team",
+                                  "enterprise",
+                                  "plus",
+                                  "academia"
+                                ],
+                                "type": "string"
+                              },
+                              "resourceGroups": {
+                                "items": {
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "id": {
+                                      "description": "A hex string of 24 characters representing an ObjectId.",
+                                      "maxLength": 24,
+                                      "minLength": 24,
+                                      "pattern": "^[0-9a-f]{24}$",
+                                      "type": "string"
+                                    },
+                                    "name": {
+                                      "type": "string"
+                                    },
+                                    "role": {
+                                      "enum": [
+                                        "admin",
+                                        "write",
+                                        "contributor",
+                                        "read",
+                                        "no_access"
+                                      ],
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "id",
+                                    "name",
+                                    "role"
+                                  ],
+                                  "type": "object"
+                                },
+                                "type": "array"
+                              },
+                              "roleInOrg": {
+                                "enum": [
+                                  "admin",
+                                  "write",
+                                  "contributor",
+                                  "read",
+                                  "no_access"
+                                ],
+                                "type": "string"
+                              },
+                              "securityRestrictions": {
+                                "description": "Current security restrictions for accessing data in this organization with current authentication method",
+                                "items": {
+                                  "enum": [
+                                    "mfa",
+                                    "token-policy",
+                                    "token-revoked",
+                                    "sso",
+                                    "ip"
+                                  ],
+                                  "type": "string"
+                                },
+                                "type": "array"
+                              },
+                              "spendLimitReached": {
+                                "type": "boolean"
+                              },
+                              "type": {
+                                "const": "org",
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "id",
+                              "name",
+                              "fullname",
+                              "avatarUrl"
+                            ],
+                            "type": "object"
+                          },
+                          "type": "array"
+                        },
+                        "periodEnd": {
+                          "type": [
+                            "number",
+                            "null"
+                          ]
+                        },
+                        "type": {
+                          "const": "user",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "auth",
+                        "type",
+                        "id",
+                        "name",
+                        "fullname",
+                        "avatarUrl",
+                        "isPro",
+                        "orgs"
+                      ],
+                      "type": "object"
+                    }
+                  ]
+                }
+              }
+            },
+            "description": "Auth information"
+          }
+        },
+        "summary": "Get user info",
+        "tags": [
+          "auth"
+        ]
+      }
+    }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "servers": [
+    {
+      "description": "Hub",
+      "url": "https://huggingface.co"
+    }
+  ],
+  "tags": [
+    {
+      "description": "The following endpoints get information about your currently used user based on the passed token.",
+      "name": "auth",
+      "x-displayName": "Auth"
+    },
+    {
+      "description": "Get information from all models on the Hub.",
+      "name": "models",
+      "x-displayName": "Models"
+    },
+    {
+      "description": "Get information from all kernels on the Hub.",
+      "name": "kernels",
+      "x-displayName": "Kernels"
+    },
+    {
+      "description": "Get information from all datasets on the Hub.",
+      "name": "datasets",
+      "x-displayName": "Datasets"
+    },
+    {
+      "description": "Get information from SQL Console embeds from a dataset.",
+      "name": "sql-console",
+      "x-displayName": "SQL Console"
+    },
+    {
+      "description": "The following endpoints manage discussions.",
+      "name": "discussions",
+      "x-displayName": "Discussions"
+    },
+    {
+      "description": "Get information from all Spaces on the Hub.",
+      "name": "spaces",
+      "x-displayName": "Spaces"
+    },
+    {
+      "description": "The following endpoints help get information about models, datasets, and Spaces stored on the Hub.",
+      "name": "repo-search",
+      "x-displayName": "Repository Search"
+    },
+    {
+      "description": "The following endpoints manage repository settings like creating and deleting a repository.",
+      "name": "repos",
+      "x-displayName": "Repositories"
+    },
+    {
+      "description": "User accounts are the base authoring entity on the Hub",
+      "name": "users",
+      "x-displayName": "Users"
+    },
+    {
+      "description": "The following endpoints let you interact with Hub Organizations and their members.",
+      "name": "orgs",
+      "x-displayName": "Organizations"
+    },
+    {
+      "description": "The following endpoints manage service accounts and their tokens.",
+      "name": "service-accounts",
+      "x-displayName": "Service Accounts"
+    },
+    {
+      "description": "The following endpoints manage jobs.",
+      "name": "jobs",
+      "x-displayName": "Jobs"
+    },
+    {
+      "description": "The following endpoints manage resource groups. Resource groups are a Team or Enterprise feature.",
+      "name": "resource-groups",
+      "x-displayName": "Resource groups"
+    },
+    {
+      "description": "The following endpoint gets information about papers.",
+      "name": "papers",
+      "x-displayName": "Paper pages"
+    },
+    {
+      "description": "Use Collections to group repositories from the Hub (Models, Datasets, Spaces and Papers) on a dedicated page.\n\nYou can learn more about it in the Collections [guide](https://huggingface.co/docs/hub/collections). Collections can also be managed using the Python client (see [guide](https://huggingface.co/docs/huggingface_hub/main/en/guides/collections)).",
+      "name": "collections",
+      "x-displayName": "Collections"
+    },
+    {
+      "description": "Git-free storage buckets for files, powered by Xet. Buckets provide simple file storage without git versioning.",
+      "name": "buckets",
+      "x-displayName": "Buckets"
+    },
+    {
+      "description": "Container image repositories, usable with the Hugging Face container registry (`docker push` / `docker pull`). Backed by bucket storage: the file endpoints mirror the bucket ones. Also includes the registry token endpoint used by `docker login`.",
+      "name": "containers",
+      "x-displayName": "Containers"
+    },
+    {
+      "description": "The following endpoints fetch Hub notifications.",
+      "name": "notifications",
+      "x-displayName": "Notifications"
+    },
+    {
+      "description": "Run inference from one of our inference providers.",
+      "name": "inference-providers",
+      "x-displayName": "Inference Providers"
+    },
+    {
+      "description": "Manage inference endpoints.",
+      "name": "inference-endpoints",
+      "x-displayName": "Inference Endpoints"
+    },
+    {
+      "description": "The following endpoints are for use with the MCP server.",
+      "name": "mcp",
+      "x-displayName": "MCP"
+    },
+    {
+      "description": "The following endpoints are for use with OAuth.",
+      "name": "oauth",
+      "x-displayName": "OAuth"
+    },
+    {
+      "description": "The following endpoints are for interacting with the Hub's documentation.",
+      "name": "docs",
+      "x-displayName": "Documentation"
+    },
+    {
+      "description": "The following endpoints are for use with webhooks.",
+      "name": "webhooks",
+      "x-displayName": "Webhooks"
+    },
+    {
+      "description": "Use the SCIM API to control and manage your hub Enterprise organization manage members' access.\n## Authentication\n\n- Must be organization owner\n- Use Access token with write permission on organization\n- Organization must be Enterprise Plus\n\n## Key Attribute Matching\n\n- Microsoft Entra ID (Azure AD)\n\t* SAML: `http://schemas.microsoft.com/identity/claims/objectidentifier`\n\t* SCIM: `externalId`\n- Other Identity Providers\n\t* SAML: `NameID` or `unique identifier`\n\t* SCIM: `externalId`\n\n## Supported SCIM User Attributes\n\n| Attribute | Description |\n|---|---|\n| `userName` | Username for the user |\n| `name.givenName` | First name |\n| `name.familyName` | Last name |\n| `emails` | Array of user emails; we don't support email types |\n| `externalId` | IDP provider's unique identifier |\n| `id` | Hugging Face SCIM endpoint identifier |\n| `active` | Boolean for provisioning status |\n\n",
+      "name": "scim",
+      "x-displayName": "SCIM"
+    },
+    {
+      "description": "The following endpoints provide information about AI agents using the Hub.",
+      "name": "agents",
+      "x-displayName": "Agents"
+    }
+  ],
+  "x-provider-generation": {
+    "notice": "Generated by tools/openapi from unmodified Hugging Face upstream plus reviewed local overlay; do not edit.",
+    "source": "https://huggingface.co/.well-known/openapi.json",
+    "transforms": [
+      "explicit allowlist operation IDs",
+      "transitive local component closure",
+      "lossless CreateRepoRequest hoist"
+    ],
+    "upstream-sha256": "11306c4757273fefa2fadb093161d426d7a08cd62b36522276d8449c6dfc19c8"
+  }
+}
