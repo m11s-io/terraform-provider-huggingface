@@ -1,15 +1,4 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended"],
-  "packageRules": [
-    {
-      "matchManagers": ["github-actions"],
-      "matchDepTypes": ["action", "workflow"],
-      "pinDigests": true
-    },
-    {
-      "matchDatasources": ["docker"],
-      "pinDigests": true
-    }
-  ]
+  "extends": ["github>m11s-io/.github:renovate-config"]
 }
