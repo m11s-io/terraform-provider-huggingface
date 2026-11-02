@@ -25,11 +25,11 @@ jobs:
           echo "$RUNNER_TEMP/cli" >> "$GITHUB_PATH"
       - run: make docs-check
       - run: go run github.com/rhysd/actionlint/cmd/actionlint@v1.7.12
-      - uses: goreleaser/goreleaser-action@5daf1e915a5f0af01ddbcd89a43b8061ff4f1a89 # v7.2.2
+      - uses: goreleaser/goreleaser-action@a4f02ab5355a589de60d917a659ce617ed19b3de # v7.3.0
         with:
           version: v2.19.0
           args: check
-      - uses: goreleaser/goreleaser-action@5daf1e915a5f0af01ddbcd89a43b8061ff4f1a89 # v7.2.2
+      - uses: goreleaser/goreleaser-action@a4f02ab5355a589de60d917a659ce617ed19b3de # v7.3.0
         with:
           version: v2.19.0
           args: release --snapshot --clean --skip=publish,sign
