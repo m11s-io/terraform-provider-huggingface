@@ -1,5 +1,19 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended"],
-  "pinDigests": true
+  "extends": [
+    "config:recommended"
+  ],
+  "pinDigests": true,
+  "packageRules": [
+    {
+      "description": "GoReleaser tool version inputs accept release versions, not commit digests",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchPackageNames": [
+        "goreleaser/goreleaser"
+      ],
+      "pinDigests": false
+    }
+  ]
 }
