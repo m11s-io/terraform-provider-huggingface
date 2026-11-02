@@ -1,19 +1,15 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:recommended"
-  ],
-  "pinDigests": true,
+  "extends": ["config:recommended"],
   "packageRules": [
     {
-      "description": "GoReleaser tool version inputs accept release versions, not commit digests",
-      "matchManagers": [
-        "github-actions"
-      ],
-      "matchPackageNames": [
-        "goreleaser/goreleaser"
-      ],
-      "pinDigests": false
+      "matchManagers": ["github-actions"],
+      "matchDepTypes": ["action", "workflow"],
+      "pinDigests": true
+    },
+    {
+      "matchDatasources": ["docker"],
+      "pinDigests": true
     }
   ]
 }
