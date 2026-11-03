@@ -99,14 +99,14 @@ needed by normal CI. [Acceptance instructions](tests/acceptance/README.md).
 
 Apply the separately reviewed [GitHub bootstrap patch](bootstrap/bootstrap.patch)
 only when authorized, then reconcile the local branch with the new remote
-history while preserving the infrastructure-owned MPL-2.0 LICENSE. Repository bootstrap is managed separately from provider installation. [Bootstrap procedure](bootstrap/README.md).
+history while preserving the infrastructure-managed Apache-2.0 LICENSE. Repository bootstrap is managed separately from provider installation. [Bootstrap procedure](bootstrap/README.md).
 
 Signing uses `GPG_PRIVATE_KEY`/`GPG_PASSPHRASE`; register the public signing key and
 provider separately with the registry before a requested release. GoReleaser
 builds five CGO-disabled ZIP targets: Linux/macOS amd64+arm64, Windows amd64;
 checksums and registry protocol-6 manifest are included. A snapshot skips signing
 and publication. Before remote bootstrap, local packaging validation can use
-`make release-check RELEASE_CHECK_ARGS="--license-template /path/to/infra/files/LICENSE-mpl-2.0.txt"`;
+`make release-check RELEASE_CHECK_ARGS="--license-template /path/to/infra/files/LICENSE-apache-2.0.txt"`;
 this stages the exact template in a temporary checkout, never writes LICENSE here.
 
 Prepare the provider PR after remote bootstrap. The infra HF integration remains

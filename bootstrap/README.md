@@ -6,7 +6,7 @@
 
 - Public `terraform-provider-huggingface`, initialized by GitHub, with issues,
   provider topics, and the proposed registry homepage; wiki/projects disabled.
-- Infrastructure-managed MPL-2.0 `LICENSE` from the existing template.
+- Infrastructure-managed Apache-2.0 `LICENSE` from the existing template.
 - `GPG_PRIVATE_KEY` from the existing sensitive `gpg_private_key` input and an
   empty `GPG_PASSPHRASE`, matching the qBittorrent convention.
 

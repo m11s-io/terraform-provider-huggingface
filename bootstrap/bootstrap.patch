@@ -19,15 +19,15 @@
 --- a/licenses.tf
 +++ b/licenses.tf
 @@ -53,3 +53,11 @@
-   commit_message      = "Add MPL-2.0 license"
+   commit_message      = "Add Apache-2.0 license"
    overwrite_on_create = true
  }
 +
 +resource "github_repository_file" "huggingface_provider_license" {
 +  repository          = github_repository.terraform_provider_huggingface.name
 +  file                = "LICENSE"
-+  content             = file("${path.module}/files/LICENSE-mpl-2.0.txt")
-+  commit_message      = "Add MPL-2.0 license"
++  content             = file("${path.module}/files/LICENSE-apache-2.0.txt")
++  commit_message      = "Add Apache-2.0 license"
 +  overwrite_on_create = true
 +}
 --- a/secrets.tf

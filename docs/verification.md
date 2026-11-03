@@ -45,7 +45,7 @@ checkout; its dependency lockfile is unchanged. No infrastructure checkout or
 backend/state/tfvars file is included in this provider publication. Status:
 
 - [Bootstrap](../bootstrap/bootstrap.patch), applied: public GitHub repo,
-  infrastructure MPL-2.0 LICENSE and existing GPG secret pattern.
+  infrastructure Apache-2.0 LICENSE and existing GPG secret pattern.
 - [Integration](../bootstrap/integration.patch): target provider pin, required HF
   namespace, private default, retain+prevent_destroy, exact existing docker-images
   main/timestral-openvino.yaml trust, Actions variable and non-secret outputs.
