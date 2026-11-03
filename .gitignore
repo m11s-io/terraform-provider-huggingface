@@ -12,3 +12,6 @@ __pycache__/
 /openapi/candidate.diff
 
 .tools/
+
+# Local Superpowers plans, specs, reviews, and session files
+superpowers/
