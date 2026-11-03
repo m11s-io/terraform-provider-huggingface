@@ -1,7 +1,7 @@
 Title: Provision the Hugging Face provider GitHub repository
 
 Add the public terraform-provider-huggingface repository, infrastructure-owned
-MPL-2.0 LICENSE and existing GPG signing-secret convention. No HF provider
+Apache-2.0 LICENSE and existing GPG signing-secret convention. No HF provider
 requirement is added, so repository bootstrap does not depend on a release from
 the repository it creates.
 

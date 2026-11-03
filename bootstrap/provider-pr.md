@@ -16,5 +16,5 @@ snapshot packaging. Real API CRUD was proven separately and all disposable
 resources removed. Provider live/OIDC tests are opt-in and remain unrun.
 
 Prerequisites: authorized remote repository bootstrap, preserve the
-infrastructure-owned MPL-2.0 LICENSE while reconciling history, configure signing
+infrastructure-managed Apache-2.0 LICENSE while reconciling history, configure signing
 and registry enrollment. No release, infrastructure apply or Timestral upload.
