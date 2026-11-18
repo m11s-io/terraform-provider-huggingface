@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   release:
-    uses: m11s-io/.github/.github/workflows/provider-release.yml@main
+    uses: m11s-io/.github/.github/workflows/provider-release.yml@fd30388e2c4782d08d8a92ae8e48884cf1a280d8 # main
     with:
       runs_on: ubuntu-24.04
       goreleaser_version: v2.19.0
